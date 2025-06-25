@@ -439,7 +439,7 @@
                 generationConfig = { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { performance: { type: "NUMBER" } }, required: ["performance"] }};
             }
             try {
-                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig };
+                const payload = { prompt, type };
                 const apiUrl = "https://meusite-final-psi.vercel.app/api/gemini-proxy";
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
