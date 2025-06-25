@@ -443,12 +443,11 @@
                 const apiUrl = "https://meusite-final-psi.vercel.app/api/gemini-proxy";
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
-                const result = await response.json();
+const result = await response.json();
 let raw = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 console.log("Resposta da IA:", raw);
 
 try {
-  // Limpa espaços antes/depois e tenta ajustar aspas
   raw = raw.trim().replace(/(\w+):/g, '"$1":');
   const data = JSON.parse(raw);
 
@@ -457,12 +456,11 @@ try {
     elements.socketInput.value = data.socket;
   }
 } catch (err) {
-  elements.geminiError.textContent = "A IA respondeu algo que não pôde ser interpretado automaticamente. Tente outra descrição.";
+  console.error("Erro ao interpretar a resposta da IA:", err);
+  elements.geminiError.textContent = "A IA respondeu algo que não pôde ser interpretado automaticamente.";
   elements.geminiError.classList.remove("hidden");
 }
-                    elements.performanceInput.value = data.performance;
-                    if (type === 'cpu') { elements.socketInput.value = data.socket; }
-                } else { throw new Error("Resposta da API inválida."); }
+
             } catch (error) {
                 console.error(`Gemini API ${type.toUpperCase()} Error:`, error);
                 elements.geminiError.textContent = `Erro ao buscar dados: ${error.message}`;
