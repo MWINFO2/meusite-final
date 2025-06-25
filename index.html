@@ -444,27 +444,21 @@
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
                 const result = await response.json();
-console.log("Gemini result:", result);
+let raw = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+console.log("Resposta da IA:", raw);
 
-if (
-  result.candidates &&
-  result.candidates[0] &&
-  result.candidates[0].content &&
-  result.candidates[0].content.parts &&
-  result.candidates[0].content.parts.length > 0
-) {
-  const rawText = result.candidates[0].content.parts[0].text;
-  try {
-    const data = JSON.parse(rawText);
-    elements.performanceInput.value = data.performance;
-    if (type === 'cpu') {
-      elements.socketInput.value = data.socket || '';
-    }
-  } catch (err) {
-    throw new Error("Erro ao interpretar JSON da IA.");
+try {
+  // Limpa espaços antes/depois e tenta ajustar aspas
+  raw = raw.trim().replace(/(\w+):/g, '"$1":');
+  const data = JSON.parse(raw);
+
+  elements.performanceInput.value = data.performance;
+  if (type === 'cpu' && data.socket) {
+    elements.socketInput.value = data.socket;
   }
-} else {
-  throw new Error("A IA não retornou dados utilizáveis.");
+} catch (err) {
+  elements.geminiError.textContent = "A IA respondeu algo que não pôde ser interpretado automaticamente. Tente outra descrição.";
+  elements.geminiError.classList.remove("hidden");
 }
                     elements.performanceInput.value = data.performance;
                     if (type === 'cpu') { elements.socketInput.value = data.socket; }
