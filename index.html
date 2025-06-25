@@ -440,7 +440,7 @@
             }
             try {
                 const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig };
-                const apiUrl = "https://meusite-final-psi.vercel.app.vercel.app/api/gemini-proxy";
+                const apiUrl = "https://meusite-final-psi.vercel.app//api/gemini-proxy";
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
                 const result = await response.json();
