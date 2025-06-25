@@ -466,7 +466,6 @@ if (
 } else {
   throw new Error("A IA não retornou dados utilizáveis.");
 }
-
                     elements.performanceInput.value = data.performance;
                     if (type === 'cpu') { elements.socketInput.value = data.socket; }
                 } else { throw new Error("Resposta da API inválida."); }
