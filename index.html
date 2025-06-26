@@ -478,7 +478,7 @@ try {
     elements.trendsError.classList.add('hidden');
     elements.trendsList.innerHTML = '';
 
-    const apiUrl = `http://localhost:3000/api/trends/${type}`; // Troque para sua URL real se subir online
+    const apiUrl = `https://mw-api-trends-an3wkzo42-mws-projects-0a8346e0.vercel.app/api/trends/${type}`;
 
     try {
         const response = await fetch(apiUrl);
